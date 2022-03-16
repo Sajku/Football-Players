@@ -1,0 +1,61 @@
+﻿<Window x:Class="Lab_02_2.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Lab_02_2"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+    <Window.Resources>
+        <Style TargetType="TextBox">
+            <Setter Property="Background" Value="Beige"/>
+            <Setter Property="FontSize" Value="24"/>
+            <Setter Property="TextAlignment" Value="Center"/>
+            <Setter Property="Margin" Value="5,10,5,10"/>
+        </Style>
+    </Window.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="3*"/>
+        </Grid.ColumnDefinitions>
+
+        <StackPanel Grid.Column="0"
+                   Background="Azure" >
+            <TextBox Name="textBox_nazwisko"
+                     Text="Nazwisko"
+                     KeyDown="TextBox_KeyDown"/>
+            <TextBox Name="textBox_imie"
+                     Text="Imię"
+                     KeyDown="TextBox_KeyDown"/>
+            <TextBox Name="textBox_wzrost"
+                     Text="Wzrost [cm]"/>
+            <TextBox Name="textBox_waga"
+                     Text="Waga [kg]"/>
+
+            <ComboBox Name="comboBox_pozycje" 
+                      FontSize="24"
+                      Margin="5"
+                      >
+                <ComboBoxItem Content="Bramkarz"/>
+                <ComboBoxItem Content="Obrońca"/>
+                <ComboBoxItem Content="Pomocnik"/>
+                <ComboBoxItem Content="Napastnik"/>
+            </ComboBox>
+
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Button Name="button_Dodaj"
+                    Content="Dodaj"
+                    Click="button_Dodaj_Click"/>
+            </Grid>
+            
+        </StackPanel>
+        <ListBox Name="listbox_pilkarze" 
+                 Grid.Column="1"/>
+    </Grid>
+</Window>
