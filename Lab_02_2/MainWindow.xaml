@@ -38,6 +38,7 @@
             <TextBox Name="textBox_wzrost"
                      Text="Wzrost [cm]"
                      MaxLength="3"
+                     KeyUp="TextBox_KeyUp"
                      GotFocus="TextBox_GotFocus"
                      LostFocus="TextBox_LostFocus"/>
             <TextBox Name="textBox_waga"
@@ -49,8 +50,7 @@
 
             <ComboBox Name="comboBox_pozycje" 
                       FontSize="24"
-                      Margin="5"
-                      >
+                      Margin="5">
                 <ComboBoxItem Content="Bramkarz"/>
                 <ComboBoxItem Content="Obrońca"/>
                 <ComboBoxItem Content="Pomocnik"/>
@@ -63,9 +63,18 @@
                     <ColumnDefinition/>
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
-                <Button Name="button_Dodaj"
+                <Button Grid.Column="0"
+                    Name="button_Dodaj"
                     Content="Dodaj"
                     Click="Button_Dodaj_Click"/>
+                <Button Grid.Column="1"
+                    Name="button_Usun"
+                    Content="Usuń"
+                    Click="Button_Usun_Click"/>
+                <Button Grid.Column="2"
+                    Name="button_Edytuj"
+                    Content="Edytuj"
+                    Click="Button_Edytuj_Click"/>
             </Grid>
             
         </StackPanel>

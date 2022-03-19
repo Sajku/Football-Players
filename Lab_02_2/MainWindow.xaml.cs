@@ -31,17 +31,22 @@ namespace Lab_02_2
             bool valid = true;
             foreach (object o in TextBoxes.Children)
             {
-                TextBox currentTextBox = o as TextBox;
-                if (currentTextBox.Background == Brushes.IndianRed)
+                if (o is TextBox)
                 {
-                    valid = false;
+                    TextBox currentTextBox = (TextBox)o;
+                    if (currentTextBox.Background == Brushes.IndianRed)
+                    {
+                        valid = false;
+                    }
                 }
             }
 
             if (valid)
             {
-                string i = textBox_imie.Text;
-                string n = textBox_nazwisko.Text;
+                string i = textBox_imie.Text.ToLower();
+                i = char.ToUpper(i[0]) + i.Substring(1);
+                string n = textBox_nazwisko.Text.ToLower();
+                n = char.ToUpper(n[0]) + n.Substring(1);
                 string wa = textBox_waga.Text;
                 string wz = textBox_wzrost.Text;
 
@@ -50,6 +55,20 @@ namespace Lab_02_2
                 listbox_pilkarze.Items.Add(p);
                 //MessageBox.Show($"{test(1)&&test(1)}");
             }
+            else
+            {
+                MessageBox.Show("ZŁE DANE!");
+            }
+        }
+
+        private void Button_Usun_Click(object sender, RoutedEventArgs e)
+        {
+            
+        }
+
+        private void Button_Edytuj_Click(object sender, RoutedEventArgs e)
+        {
+            
         }
 
         private bool test(int x)
@@ -65,16 +84,7 @@ namespace Lab_02_2
         private void TextBox_KeyUp(object sender, KeyEventArgs e)
         {
             TextBox currentTextBox = sender as TextBox;
-            string[] placeholder = { "Nazwisko", "Imię", "Wzrost [cm]", "Wiek [kg]" };
-
-            if (currentTextBox.Name[8] == 'w')
-            {
-                currentTextBox.Background = currentTextBox.Text.All(char.IsDigit) ? Brushes.LightGreen : Brushes.IndianRed;
-            }
-            else
-            {
-                currentTextBox.Background = (HasSpecialChars(currentTextBox.Text) || currentTextBox.Text.Any(char.IsDigit)) ? Brushes.IndianRed : Brushes.LightGreen;
-            }
+            Validation_Key(currentTextBox);
         }
 
         private void TextBox_GotFocus(object sender, RoutedEventArgs e)
@@ -91,6 +101,8 @@ namespace Lab_02_2
         {
             TextBox currentTextBox = sender as TextBox;
             string[] placeholder = { "Nazwisko", "Imię", "Wzrost [cm]", "Waga [kg]" };
+
+            Validation_Focus(currentTextBox);
             if (currentTextBox.Text == "")
             {
                 switch(currentTextBox.Name)
@@ -113,6 +125,46 @@ namespace Lab_02_2
                         break;
                 }
             }
+        }
+
+        private void Validation_Key(TextBox currentTextBox)
+        {
+            bool valid = true;
+
+            if (currentTextBox.Name[8] == 'w')
+            {
+                valid = currentTextBox.Text.All(char.IsDigit);
+            }
+            else
+            {
+                valid = !HasSpecialChars(currentTextBox.Text) && !currentTextBox.Text.Any(char.IsDigit);
+            }
+
+            currentTextBox.Background = valid ? Brushes.LightGreen : Brushes.IndianRed;
+        }
+
+        private void Validation_Focus(TextBox currentTextBox)
+        {
+            bool valid = true;
+            int temp = 0;
+            int.TryParse(currentTextBox.Text, out temp);
+
+            if (currentTextBox.Name == "textBox_wzrost")
+            {
+                if (temp < 100 || temp > 250)
+                {
+                    valid = false;
+                }
+            }
+            if (currentTextBox.Name == "textBox_waga")
+            {
+                if (temp < 40 || temp > 300)
+                {
+                    valid = false;
+                }
+            }
+
+            currentTextBox.Background = valid ? Brushes.LightGreen : Brushes.IndianRed;
         }
 
 
