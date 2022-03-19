@@ -1,20 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Lab_02_2
+﻿namespace Lab_02_2
 {
     internal class Piłkarz
     {
         private string imie;
-        internal string Imie {
+        internal string Imie
+        {
             get
             {
                 return imie;
             }
-            set {
+            set
+            {
                 imie = value;
 
             }

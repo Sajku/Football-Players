@@ -1,18 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace Lab_02_2
 {
@@ -31,10 +22,9 @@ namespace Lab_02_2
             bool valid = true;
             foreach (object o in TextBoxes.Children)
             {
-                if (o is TextBox)
+                if (o is TextBox currentTextBox)
                 {
-                    TextBox currentTextBox = (TextBox)o;
-                    if (currentTextBox.Background == Brushes.IndianRed)
+                    if (currentTextBox.Background != Brushes.LightGreen)
                     {
                         valid = false;
                     }
@@ -57,18 +47,18 @@ namespace Lab_02_2
             }
             else
             {
-                MessageBox.Show("ZŁE DANE!");
+                _ = MessageBox.Show("ZŁE DANE!");
             }
         }
 
         private void Button_Usun_Click(object sender, RoutedEventArgs e)
         {
-            
+
         }
 
         private void Button_Edytuj_Click(object sender, RoutedEventArgs e)
         {
-            
+
         }
 
         private bool test(int x)
@@ -76,7 +66,8 @@ namespace Lab_02_2
             if (x % 2 == 0)
             {
                 MessageBox.Show("test:True");
-                return true; }
+                return true;
+            }
             MessageBox.Show("test:False");
             return false;
         }
@@ -105,23 +96,29 @@ namespace Lab_02_2
             Validation_Focus(currentTextBox);
             if (currentTextBox.Text == "")
             {
-                switch(currentTextBox.Name)
+                switch (currentTextBox.Name)
                 {
                     case "textBox_nazwisko":
                         currentTextBox.Text = placeholder[0];
                         currentTextBox.Background = Brushes.Beige;
+                        textBlockV.Text = "";
                         break;
                     case "textBox_imie":
                         currentTextBox.Text = placeholder[1];
                         currentTextBox.Background = Brushes.Beige;
+                        textBlockV.Text = "";
                         break;
                     case "textBox_wzrost":
                         currentTextBox.Text = placeholder[2];
+                        textBlockV.Text = "";
                         currentTextBox.Background = Brushes.Beige;
                         break;
                     case "textBox_waga":
                         currentTextBox.Text = placeholder[3];
                         currentTextBox.Background = Brushes.Beige;
+                        textBlockV.Text = "";
+                        break;
+                    default:
                         break;
                 }
             }
@@ -130,41 +127,69 @@ namespace Lab_02_2
         private void Validation_Key(TextBox currentTextBox)
         {
             bool valid = true;
-
-            if (currentTextBox.Name[8] == 'w')
+            if (textBlockV.Text.Contains("Podano"))
             {
-                valid = currentTextBox.Text.All(char.IsDigit);
+                textBlockV.Text = "";
             }
-            else
+
+            if (currentTextBox.Name[8] != 'w')
             {
                 valid = !HasSpecialChars(currentTextBox.Text) && !currentTextBox.Text.Any(char.IsDigit);
             }
+            else
+            {
+                valid = currentTextBox.Text.All(char.IsDigit);
+            }
 
             currentTextBox.Background = valid ? Brushes.LightGreen : Brushes.IndianRed;
+            textBlockV.Text = valid ? "" : "Podano złą wartość!";
         }
 
         private void Validation_Focus(TextBox currentTextBox)
         {
             bool valid = true;
-            int temp = 0;
-            int.TryParse(currentTextBox.Text, out temp);
+            int.TryParse(currentTextBox.Text, out int temp);
+
+            if (textBlockV.Text.Contains("Podano"))
+            {
+                textBlockV.Text = "";
+            }
 
             if (currentTextBox.Name == "textBox_wzrost")
             {
-                if (temp < 100 || temp > 250)
+                if (currentTextBox.Text != "Wzrost [cm]")
                 {
-                    valid = false;
+                    if (temp < 100)
+                    {
+                        valid = false;
+                        textBlockV.Text += "\nZa mała liczba";
+                    }
+                    else if (temp > 250)
+                    {
+                        valid = false;
+                        textBlockV.Text += "\nZa duża liczba";
+                    }
                 }
             }
             if (currentTextBox.Name == "textBox_waga")
             {
-                if (temp < 40 || temp > 300)
+                if (currentTextBox.Text != "Waga [kg]")
                 {
-                    valid = false;
+                    if (temp < 40)
+                    {
+                        valid = false;
+                        textBlockV.Text += "\nZa mała liczba";
+                    }
+                    else if (temp > 250)
+                    {
+                        valid = false;
+                        textBlockV.Text += "\nZa duża liczba";
+                    }
                 }
             }
 
             currentTextBox.Background = valid ? Brushes.LightGreen : Brushes.IndianRed;
+            textBlockV.Text = valid ? "" : "Podano złą wartość!" + textBlockV.Text;
         }
 
 
@@ -174,7 +199,7 @@ namespace Lab_02_2
 
         private bool HasSpecialChars(string temp)
         {
-            return temp.Any(ch => !Char.IsLetterOrDigit(ch));
+            return temp.Any(ch => !char.IsLetterOrDigit(ch));
         }
     }
 }
