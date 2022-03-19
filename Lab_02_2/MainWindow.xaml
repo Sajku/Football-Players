@@ -21,17 +21,31 @@
         </Grid.ColumnDefinitions>
 
         <StackPanel Grid.Column="0"
-                   Background="Azure" >
+                    Background="Azure"
+                    x:Name="TextBoxes">
             <TextBox Name="textBox_nazwisko"
                      Text="Nazwisko"
-                     KeyDown="TextBox_KeyDown"/>
+                     MaxLength="20"
+                     KeyUp="TextBox_KeyUp"
+                     GotFocus="TextBox_GotFocus"
+                     LostFocus="TextBox_LostFocus"/>
             <TextBox Name="textBox_imie"
                      Text="Imię"
-                     KeyDown="TextBox_KeyDown"/>
+                     MaxLength="20"
+                     KeyUp="TextBox_KeyUp"
+                     GotFocus="TextBox_GotFocus"
+                     LostFocus="TextBox_LostFocus"/>
             <TextBox Name="textBox_wzrost"
-                     Text="Wzrost [cm]"/>
+                     Text="Wzrost [cm]"
+                     MaxLength="3"
+                     GotFocus="TextBox_GotFocus"
+                     LostFocus="TextBox_LostFocus"/>
             <TextBox Name="textBox_waga"
-                     Text="Waga [kg]"/>
+                     Text="Waga [kg]"
+                     MaxLength="3"
+                     KeyUp="TextBox_KeyUp"
+                     GotFocus="TextBox_GotFocus"
+                     LostFocus="TextBox_LostFocus"/>
 
             <ComboBox Name="comboBox_pozycje" 
                       FontSize="24"
@@ -51,7 +65,7 @@
                 </Grid.ColumnDefinitions>
                 <Button Name="button_Dodaj"
                     Content="Dodaj"
-                    Click="button_Dodaj_Click"/>
+                    Click="Button_Dodaj_Click"/>
             </Grid>
             
         </StackPanel>

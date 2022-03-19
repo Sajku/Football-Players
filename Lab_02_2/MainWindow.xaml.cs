@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -25,19 +26,30 @@ namespace Lab_02_2
             InitializeComponent();
         }
 
-        private void button_Dodaj_Click(object sender, RoutedEventArgs e)
+        private void Button_Dodaj_Click(object sender, RoutedEventArgs e)
         {
+            bool valid = true;
+            foreach (object o in TextBoxes.Children)
+            {
+                TextBox currentTextBox = o as TextBox;
+                if (currentTextBox.Background == Brushes.IndianRed)
+                {
+                    valid = false;
+                }
+            }
 
-            string i = textBox_imie.Text;
-            string n = textBox_nazwisko.Text;
-            string wa = textBox_waga.Text;
-            string wz = textBox_wzrost.Text;
+            if (valid)
+            {
+                string i = textBox_imie.Text;
+                string n = textBox_nazwisko.Text;
+                string wa = textBox_waga.Text;
+                string wz = textBox_wzrost.Text;
 
 
-            Piłkarz p = new Piłkarz(i, n, Convert.ToInt32(wa), Convert.ToInt32(wz), (Pozycja)comboBox_pozycje.SelectedIndex);
-            listbox_pilkarze.Items.Add(p);
-            //MessageBox.Show($"{test(1)&&test(1)}");
-            
+                Piłkarz p = new Piłkarz(i, n, Convert.ToInt32(wa), Convert.ToInt32(wz), (Pozycja)comboBox_pozycje.SelectedIndex);
+                listbox_pilkarze.Items.Add(p);
+                //MessageBox.Show($"{test(1)&&test(1)}");
+            }
         }
 
         private bool test(int x)
@@ -50,24 +62,67 @@ namespace Lab_02_2
             return false;
         }
 
-        private void TextBox_KeyDown(object sender, KeyEventArgs e)
+        private void TextBox_KeyUp(object sender, KeyEventArgs e)
         {
-            if (e.Key != Key.Back)
-            {
-                if (textBox_imie.Text.Length > 20)
-                {
-                    textBox_imie.Background = Brushes.Gray;
-                    textBox_imie.Text = textBox_imie.Text.Remove(textBox_imie.Text.Length - 1);
-                    textBox_imie.Focus();
-                    textBox_imie.SelectionStart = textBox_imie.Text.Length;
-                    textBox_imie.SelectionLength = 0;
+            TextBox currentTextBox = sender as TextBox;
+            string[] placeholder = { "Nazwisko", "Imię", "Wzrost [cm]", "Wiek [kg]" };
 
+            if (currentTextBox.Name[8] == 'w')
+            {
+                currentTextBox.Background = currentTextBox.Text.All(char.IsDigit) ? Brushes.LightGreen : Brushes.IndianRed;
+            }
+            else
+            {
+                currentTextBox.Background = (HasSpecialChars(currentTextBox.Text) || currentTextBox.Text.Any(char.IsDigit)) ? Brushes.IndianRed : Brushes.LightGreen;
+            }
+        }
+
+        private void TextBox_GotFocus(object sender, RoutedEventArgs e)
+        {
+            TextBox currentTextBox = sender as TextBox;
+            string[] placeholder = { "Nazwisko", "Imię", "Wzrost [cm]", "Waga [kg]" };
+            if (placeholder.Contains(currentTextBox.Text))
+            {
+                currentTextBox.Text = "";
+            }
+        }
+
+        private void TextBox_LostFocus(object sender, RoutedEventArgs e)
+        {
+            TextBox currentTextBox = sender as TextBox;
+            string[] placeholder = { "Nazwisko", "Imię", "Wzrost [cm]", "Waga [kg]" };
+            if (currentTextBox.Text == "")
+            {
+                switch(currentTextBox.Name)
+                {
+                    case "textBox_nazwisko":
+                        currentTextBox.Text = placeholder[0];
+                        currentTextBox.Background = Brushes.Beige;
+                        break;
+                    case "textBox_imie":
+                        currentTextBox.Text = placeholder[1];
+                        currentTextBox.Background = Brushes.Beige;
+                        break;
+                    case "textBox_wzrost":
+                        currentTextBox.Text = placeholder[2];
+                        currentTextBox.Background = Brushes.Beige;
+                        break;
+                    case "textBox_waga":
+                        currentTextBox.Text = placeholder[3];
+                        currentTextBox.Background = Brushes.Beige;
+                        break;
                 }
             }
-            if (textBox_imie.Text.Length < 20)
-            {
-                textBox_imie.Background = Brushes.Beige;
-            }
+        }
+
+
+
+
+
+
+        private bool HasSpecialChars(string temp)
+        {
+            return temp.Any(ch => !Char.IsLetterOrDigit(ch));
         }
     }
 }
