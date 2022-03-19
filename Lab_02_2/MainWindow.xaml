@@ -89,6 +89,6 @@
 
         </StackPanel>
         <ListBox Name="listbox_pilkarze" 
-                 Grid.Column="1" SelectionChanged="listbox_pilkarze_SelectionChanged"/>
+                 Grid.Column="1" SelectionChanged="Listbox_pilkarze_SelectionChanged"/>
     </Grid>
 </Window>
