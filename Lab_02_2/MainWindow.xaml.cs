@@ -63,44 +63,43 @@ namespace Lab_02_2
 
         private void Button_Usun_Click(object sender, RoutedEventArgs e)
         {
-            if (listbox_pilkarze.SelectedItem == null)
-            {
-                MessageBox.Show("Nie wybrano piłkarza!");
-            }
-            else
-            {
-                listbox_pilkarze.Items.Remove(listbox_pilkarze.SelectedItem);
-            }
+            listbox_pilkarze.Items.Remove(listbox_pilkarze.SelectedItem);
+            textBox_imie.Text = "Imię";
+            textBox_nazwisko.Text = "Nazwisko";
+            textBox_wzrost.Text = "Wzrost [cm]";
+            textBox_waga.Text = "Waga [kg]";
+            textBox_imie.Background = Brushes.Beige;
+            textBox_nazwisko.Background = Brushes.Beige;
+            textBox_wzrost.Background = Brushes.Beige;
+            textBox_waga.Background = Brushes.Beige;
         }
 
         private void Button_Edytuj_Click(object sender, RoutedEventArgs e)
         {
-            string i = textBox_imie.Text.ToLower();
-            i = char.ToUpper(i[0]) + i.Substring(1);
-            string n = textBox_nazwisko.Text.ToLower();
-            n = char.ToUpper(n[0]) + n.Substring(1);
-            string wa = textBox_waga.Text;
-            string wz = textBox_wzrost.Text;
+            if (listbox_pilkarze.SelectedItem != null)
+            {
+                string i = textBox_imie.Text.ToLower();
+                i = char.ToUpper(i[0]) + i.Substring(1);
+                string n = textBox_nazwisko.Text.ToLower();
+                n = char.ToUpper(n[0]) + n.Substring(1);
+                string wa = textBox_waga.Text;
+                string wz = textBox_wzrost.Text;
 
-            // TODO: MAKE A VALIDATION ------------------------------------------------------------------------------------------------------------------------------
+                // TODO: MAKE A VALIDATION ------------------------------------------------------------------------------------------------------------------------------
 
-            Piłkarz p = new Piłkarz(i, n, Convert.ToInt32(wa), Convert.ToInt32(wz), (Pozycja)comboBox_pozycje.SelectedIndex);
-            int currentIndex = listbox_pilkarze.Items.IndexOf(listbox_pilkarze.SelectedItem);
-            listbox_pilkarze.Items.Remove(listbox_pilkarze.SelectedItem);
-            listbox_pilkarze.Items.Insert(currentIndex, p);
-
-            //if ((string)button_Edytuj.Content == "Edytuj")
-            //{
-            //    button_Edytuj.Content = "GOTOWE";
-            //    button_Dodaj.IsEnabled = false;
-            //    button_Usun.IsEnabled = false;
-            //    Button_Usun_Click(sender, e);
-            //    Button_Dodaj_Click(sender, e);
-            //}
-            //else
-            //{
-                
-            //}
+                Piłkarz p = new Piłkarz(i, n, Convert.ToInt32(wa), Convert.ToInt32(wz), (Pozycja)comboBox_pozycje.SelectedIndex);
+                int currentIndex = listbox_pilkarze.Items.IndexOf(listbox_pilkarze.SelectedItem);
+                listbox_pilkarze.Items.Remove(listbox_pilkarze.SelectedItem);
+                listbox_pilkarze.Items.Insert(currentIndex, p);
+                textBox_imie.Text = "Imię";
+                textBox_nazwisko.Text = "Nazwisko";
+                textBox_wzrost.Text = "Wzrost [cm]";
+                textBox_waga.Text = "Waga [kg]";
+                textBox_imie.Background = Brushes.Beige;
+                textBox_nazwisko.Background = Brushes.Beige;
+                textBox_wzrost.Background = Brushes.Beige;
+                textBox_waga.Background = Brushes.Beige;
+            }
         }
 
         private void TextBox_KeyUp(object sender, KeyEventArgs e)
@@ -174,9 +173,27 @@ namespace Lab_02_2
 
             currentTextBox.Background = valid ? Brushes.LightGreen : Brushes.IndianRed;
             textBlockV.Text = valid ? "" : "Podano złą wartość!";
-            button_Dodaj.IsEnabled = valid;
-            button_Usun.IsEnabled = valid;
-            button_Edytuj.IsEnabled = valid;
+
+            if (textBox_imie.Background == Brushes.LightGreen && textBox_nazwisko.Background == Brushes.LightGreen
+                && textBox_wzrost.Background == Brushes.LightGreen && textBox_waga.Background == Brushes.LightGreen)
+            {
+                button_Dodaj.IsEnabled = valid;
+            }
+            else
+            {
+                button_Dodaj.IsEnabled = false;
+            }
+            
+            if (listbox_pilkarze.SelectedItem == null)
+            {
+                button_Usun.IsEnabled = false;
+                button_Edytuj.IsEnabled = false;
+            }
+            else
+            {
+                button_Usun.IsEnabled = valid;
+                button_Edytuj.IsEnabled = valid;
+            }
         }
 
         private void Validation_Focus(TextBox currentTextBox)
@@ -224,6 +241,27 @@ namespace Lab_02_2
 
             currentTextBox.Background = valid ? Brushes.LightGreen : Brushes.IndianRed;
             textBlockV.Text = valid ? "" : "Podano złą wartość!" + textBlockV.Text;
+
+            if (textBox_imie.Background == Brushes.LightGreen && textBox_nazwisko.Background == Brushes.LightGreen
+                && textBox_wzrost.Background == Brushes.LightGreen && textBox_waga.Background == Brushes.LightGreen)
+            {
+                button_Dodaj.IsEnabled = valid;
+            }
+            else
+            {
+                button_Dodaj.IsEnabled = false;
+            }
+
+            if (listbox_pilkarze.SelectedItem == null)
+            {
+                button_Usun.IsEnabled = false;
+                button_Edytuj.IsEnabled = false;
+            }
+            else
+            {
+                button_Usun.IsEnabled = valid;
+                button_Edytuj.IsEnabled = valid;
+            }
         }
 
         private void Listbox_pilkarze_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -234,7 +272,21 @@ namespace Lab_02_2
                 textBox_nazwisko.Text = currentItem.Nazwisko;
                 textBox_wzrost.Text = currentItem.Wzrost.ToString();
                 textBox_waga.Text = currentItem.Waga.ToString();
+                textBox_imie.Background = Brushes.LightGreen;
+                textBox_nazwisko.Background = Brushes.LightGreen;
+                textBox_wzrost.Background = Brushes.LightGreen;
+                textBox_waga.Background = Brushes.LightGreen;
                 current = currentItem;
+                button_Dodaj.IsEnabled = false;
+                button_Usun.IsEnabled = true;
+                button_Edytuj.IsEnabled = true;
+            }
+            
+            if (listbox_pilkarze.SelectedItem == null)
+            {
+                button_Dodaj.IsEnabled = false;
+                button_Usun.IsEnabled = false;
+                button_Edytuj.IsEnabled = false;
             }
         }
 
