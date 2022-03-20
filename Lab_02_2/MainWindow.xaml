@@ -50,7 +50,11 @@
 
             <ComboBox Name="comboBox_pozycje" 
                       FontSize="24"
-                      Margin="5">
+                      Margin="5"
+                      IsEditable="true"
+                      IsReadOnly="true"
+                      Focusable="false"
+                      Text="*POZYCJA*">
                 <ComboBoxItem Content="Bramkarz"/>
                 <ComboBoxItem Content="Obrońca"/>
                 <ComboBoxItem Content="Pomocnik"/>

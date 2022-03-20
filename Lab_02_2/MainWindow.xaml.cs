@@ -21,19 +21,7 @@ namespace Lab_02_2
 
         private void Button_Dodaj_Click(object sender, RoutedEventArgs e)
         {
-            bool valid = true;
-            foreach (object o in TextBoxes.Children)
-            {
-                if (o is TextBox currentTextBox)
-                {
-                    if (currentTextBox.Background != Brushes.LightGreen)
-                    {
-                        valid = false;
-                    }
-                }
-            }
-
-            if (valid)
+            if (comboBox_pozycje.SelectedItem != null)
             {
                 string i = textBox_imie.Text.ToLower();
                 i = char.ToUpper(i[0]) + i.Substring(1);
@@ -57,7 +45,7 @@ namespace Lab_02_2
             }
             else
             {
-                _ = MessageBox.Show("ZŁE DANE!");
+                MessageBox.Show("Wybierz pozycję piłkarza!");
             }
         }
 
