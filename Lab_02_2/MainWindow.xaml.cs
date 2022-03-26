@@ -4,6 +4,10 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Text.Json;
+using System.IO;
+using System.Text.Json.Serialization;
+using System.Collections.Generic;
 
 namespace Lab_02_2
 {
@@ -13,10 +17,32 @@ namespace Lab_02_2
     public partial class MainWindow : Window
     {
         private Piłkarz current;
+        private string fileName = "dane.json";
+        private JsonSerializerOptions options;
 
         public MainWindow()
         {
             InitializeComponent();
+
+            string jsonString = File.ReadAllText(fileName);
+            List<Piłkarz> pilkarze = JsonSerializer.Deserialize<List<Piłkarz>>(jsonString);
+            foreach (Piłkarz p in pilkarze)
+            {
+                listbox_pilkarze.Items.Add(p);
+            }
+
+            AppDomain.CurrentDomain.ProcessExit += new EventHandler(OnProcessExit);
+        }
+
+        private void OnProcessExit(object sender, EventArgs e)
+        {
+            List<Piłkarz> pilkarze = new List<Piłkarz>();
+            foreach (Piłkarz p in listbox_pilkarze.Items)
+            {
+                pilkarze.Add(p);
+            }
+            var json = JsonSerializer.Serialize(pilkarze);
+            File.WriteAllText(fileName, json);
         }
 
         private void Button_Dodaj_Click(object sender, RoutedEventArgs e)
@@ -72,9 +98,7 @@ namespace Lab_02_2
                 n = char.ToUpper(n[0]) + n.Substring(1);
                 string wa = textBox_waga.Text;
                 string wz = textBox_wzrost.Text;
-
-                // TODO: MAKE A VALIDATION ------------------------------------------------------------------------------------------------------------------------------
-
+                
                 Piłkarz p = new Piłkarz(i, n, Convert.ToInt32(wa), Convert.ToInt32(wz), (Pozycja)comboBox_pozycje.SelectedIndex);
                 int currentIndex = listbox_pilkarze.Items.IndexOf(listbox_pilkarze.SelectedItem);
                 listbox_pilkarze.Items.Remove(listbox_pilkarze.SelectedItem);

@@ -3,7 +3,7 @@
     internal class Piłkarz
     {
         private string imie;
-        internal string Imie
+        public string Imie
         {
             get
             {
@@ -20,6 +20,7 @@
         public int Waga { get; set; }
         public int Wzrost { get; set; }
         public Pozycja Pozycja { get; set; }
+
 
         public Piłkarz(string imie, string nazwisko, int waga, int wzrost, Pozycja pozycja)
         {
