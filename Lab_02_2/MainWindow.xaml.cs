@@ -16,24 +16,27 @@ namespace Lab_02_2
     /// </summary>
     public partial class MainWindow : Window
     {
-        private Piłkarz current;
         private string fileName = "dane.json";
-        private JsonSerializerOptions options;
 
         public MainWindow()
         {
             InitializeComponent();
 
+            //-----------------------------------------------------------------------------------------------------------------------------
+            // JSON FILE READING
             string jsonString = File.ReadAllText(fileName);
             List<Piłkarz> pilkarze = JsonSerializer.Deserialize<List<Piłkarz>>(jsonString);
             foreach (Piłkarz p in pilkarze)
             {
                 listbox_pilkarze.Items.Add(p);
             }
+            //-----------------------------------------------------------------------------------------------------------------------------
 
             AppDomain.CurrentDomain.ProcessExit += new EventHandler(OnProcessExit);
         }
 
+        //-----------------------------------------------------------------------------------------------------------------------------
+        // JSON FILE WRITING
         private void OnProcessExit(object sender, EventArgs e)
         {
             List<Piłkarz> pilkarze = new List<Piłkarz>();
@@ -44,6 +47,7 @@ namespace Lab_02_2
             var json = JsonSerializer.Serialize(pilkarze);
             File.WriteAllText(fileName, json);
         }
+        //-----------------------------------------------------------------------------------------------------------------------------
 
         private void Button_Dodaj_Click(object sender, RoutedEventArgs e)
         {
@@ -288,7 +292,6 @@ namespace Lab_02_2
                 textBox_nazwisko.Background = Brushes.LightGreen;
                 textBox_wzrost.Background = Brushes.LightGreen;
                 textBox_waga.Background = Brushes.LightGreen;
-                current = currentItem;
                 button_Dodaj.IsEnabled = false;
                 button_Usun.IsEnabled = true;
                 button_Edytuj.IsEnabled = true;
